@@ -1,0 +1,38 @@
+{
+    "id": "47bfaa7e841a3c2b3f6fab819fa149111e1ea31e9b8dbc48625acac7e05deb60",
+    "title": "The Wraith of the Kingdom",
+    "creator_account": "adb258c995dd524bc0590a94c3c692a39b09c1e66261c941bfcba0239a63e8c7",
+    "idea_bool": false,
+    "idea_url": "http://someurl.com/jnf2ue",
+    "idea_creator": "70621ece0e093377ff4c3ae0cb32467735c159d50936fa6f83a0aaafbc904bf6",
+    "phys_asset": true,
+    "size_unit": "ratio",
+    "size_width": "5",
+    "size_height": "4",
+    "for_sale": true,
+    "price": "12500",
+    "total_revenue_generated": "523600",
+    "year_of_creation": "2020",
+    "date_of_upload": "05/06/2020",
+    "image_url": ["http://someurl.com/jnf2ue", "http://someurl.com/34bbrj", "http://someurl.com/23u4hr"],
+    "note": "This is some description that you want to store along with the art. Could be creator's message or something."
+}
+
+
+Artist : requirement 1,00,000
+Investor: 25%
+
+
+Artist : 75%
+Investor: 25%
+
+A : 90%
+Artist + Investor: 10%
+    | - artist 7.5%
+    | - investor 2.5%
+
+B : 90%
+Artist + Investor: 10%
+    | - artist 7.5%
+    | - investor 2.5%
+
