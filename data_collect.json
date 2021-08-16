@@ -2,29 +2,22 @@
     "id": "47bfaa7e841a3c2b3f6fab819fa149111e1ea31e9b8dbc48625acac7e05deb60",
     "title": "The Wraith of the Kingdom",
     "creator_account": "adb258c995dd524bc0590a94c3c692a39b09c1e66261c941bfcba0239a63e8c7",
-    "type": "<individual/group>",
+    "creator_type": "<individual/group>",
     "idea_bool": true,
     "idea_url": "",
     "idea_creator": "adb258c995dd524bc0590a94c3c692a39b09c1e66261c941bfcba0239a63e8c7",
     "phys_asset": true,
+    "type": "<audio/video/image>",
     "size_unit": "ratio",
     "size_width": "5",
     "size_height": "4",
-    "for_sale": true,
-    "price": "2000000",
-    "total_revenue_generated": "3000000",
+    "length": "1025",
     "year_of_creation": "2020",
     "date_of_upload": "05/06/2020",
-    "ownership_record": [{
-            "owner_id": "adb258c995dd524bc0590a94c3c692a39b09c1e66261c941bfcba0239a63e8c7",
-            "start_date": "05/06/2020",
-            "end_date": "12/12/2020"
-        },
-        {
-            "owner_id": "70621ece0e093377ff4c3ae0cb32467735c159d50936fa6f83a0aaafbc904bf6",
-            "start_date": "07/07/2020",
-            "end_date": "12/12/2020"
-        }
+    "attributes" : [ 
+        "abstract",
+        "war",
+        "historical"
     ],
     "creator_group" : [
         {
