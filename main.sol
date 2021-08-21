@@ -3,7 +3,7 @@
     * Sample bytes32: 0x6162636400000000000000000000000000000000000000000000000000000000
 */
 
-pragma solidity ^ 0.8 .0;
+pragma solidity ^0.8.0;
 
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/ERC1155.sol";
@@ -13,7 +13,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contr
 
 // 0x6162636400000000000000000000000000000000000000000000000000000000
 
-contract THEWISARTS is Pausable, Ownable, ERC1155("https://raw.githubusercontent.com/The-Wise-Org/document-meta/main/{id}") {
+contract Onec is Pausable, Ownable, ERC1155("https://raw.githubusercontent.com/The-Wise-Org/document-meta/main/{id}") {
 
     uint private totalRegisteredAssets;
     uint private totalAssetsForSale;
@@ -89,6 +89,11 @@ contract THEWISARTS is Pausable, Ownable, ERC1155("https://raw.githubusercontent
     function burnAsset(address account,uint256 id,uint256 amount) public{
         super._burn(account,id,amount);
         metadataHash[id]=bytes("0x0");
+    }
+    
+    
+    function setApproval(address _operator, bool _approved) public {
+        super.setApprovalForAll(_operator,_approved);
     }
 
 }
