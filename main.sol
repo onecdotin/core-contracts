@@ -65,8 +65,8 @@ contract Onec is Pausable, Ownable, ERC1155("https://raw.githubusercontent.com/T
      * @dev Tranfers the asset to new address.
      * Can be called by the asset holder.
      */
-    function transfer(address _to, uint256 _id, uint256 _amount, bytes memory _data) public {
-        super.safeTransferFrom(msg.sender, _to, _id, _amount, _data);
+    function transfer(address _from,address _to, uint256 _id, uint256 _amount, bytes memory _data) public {
+        super.safeTransferFrom(_from, _to, _id, _amount, _data);
     }
 
     /*
