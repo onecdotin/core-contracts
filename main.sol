@@ -96,4 +96,13 @@ contract Onec is Pausable, Ownable, ERC1155("https://raw.githubusercontent.com/T
         super.setApprovalForAll(_operator,_approved);
     }
 
+    function isApproved(address account, address operator) public returns(bool){
+        return super.isApprovedForAll(account,operator);
+    }
+    
+    function getBalance(address account, uint256 id) public returns(uint256){
+        return super.balanceOf(account,id);
+    }
+    
+
 }
