@@ -2,7 +2,6 @@
     * @dev Assume supply=1 everywhere when passing arguments.
     * Sample bytes32: 0x6162636400000000000000000000000000000000000000000000000000000000
 */
-
 pragma solidity ^0.8.0;
 
 
