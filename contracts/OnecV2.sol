@@ -1,7 +1,11 @@
+/* This File is absurd and here just for example */
 /*
     * @dev Assume supply=1 everywhere when passing arguments.
     * Sample bytes32: 0x6162636400000000000000000000000000000000000000000000000000000000
 */
+
+
+
 
 pragma solidity ^0.8.0;
 
@@ -12,9 +16,9 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 
-contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155Upgradeable {
+contract OnecV2 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155Upgradeable {
 
-    uint private totalRegisteredAssets;
+    uint public totalRegisteredAssets;
 
     mapping(uint256 => bytes) private metadataHash;
     
