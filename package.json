@@ -1,0 +1,33 @@
+{
+  "name": "core-contract",
+  "version": "1.0.0",
+  "description": "Contains core smart-contracts of onec",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts-upgradeable": "^4.3.0",
+    "@openzeppelin/truffle-upgrades": "^1.8.1",
+    "@truffle/hdwallet-provider": "^1.5.0",
+    "truffle": "^5.4.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/The-Wise-Org/core-contract.git"
+  },
+  "keywords": [
+    "nft",
+    "onec",
+    "erc1155"
+  ],
+  "author": "Hrishabh Sharma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/The-Wise-Org/core-contract/issues"
+  },
+  "homepage": "https://github.com/The-Wise-Org/core-contract#readme"
+}
