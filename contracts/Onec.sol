@@ -1,7 +1,4 @@
-/*
-    * @dev Assume supply=1 everywhere when passing arguments.
-    * Sample bytes32: 0x6162636400000000000000000000000000000000000000000000000000000000
-*/
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 
@@ -13,27 +10,49 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155Upgradeable {
 
-    uint private totalRegisteredAssets;
+    uint private totalRegisteredNFTs;
 
+    // token-id to metadata hash
     mapping(uint256 => bytes) private metadataHash;
-    
+    // Sids to refSids
+    mapping(uint256 => uint256[]) private references;
+
     function initialize() public initializer {
-        ERC1155Upgradeable.__ERC1155_init("https://raw.githubusercontent.com/The-Wise-Org/document-meta/main/{id}");
-        totalRegisteredAssets = 0;
+        ERC1155Upgradeable.__ERC1155_init("https://ipfs.onec.in/");
+        totalRegisteredNFTs = 0;
     }
     
-    
     /*
-     * @dev Mint Assets to the address of _holder.
+     * @dev Mints Main Service to the address of _holder.
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
-    function mintAsset(uint _supply, address _holder, uint256 _id, bytes memory _data) public {
+    function mintSid(uint _supply, address _holder, uint256 _id, bytes memory _data) public {
         require(metadataHash[_id].length == 0);
         _mint(_holder, _id, _supply, _data);
-        totalRegisteredAssets++;
+        totalRegisteredNFTs++;        
     }
 
+    /*
+     * @dev Mints Rerference Service to the address of _holder.
+     * Requirements:
+     * Can only be called by the deployer of the smart contract.
+     */
+    
+    function mintRefSid(uint _supply, address _holder, uint256 _id, bytes memory _data,uint256 _parentSid) public {
+        require(metadataHash[_id].length == 0);
+        _mint(_holder, _id, _supply, _data);
+        references[_parentSid].push(_id);
+        totalRegisteredNFTs++;
+    }
+
+    /*
+     * @dev return the list of token-ids of all the reference service tokens
+     */
+    function getReferences(uint _sid) public view returns(uint256[] memory) {
+        return references[_sid];    
+    }
+    
     /*
      *@dev Called before every token transfer, maps the metadataHash of an asset with the token/asset id  
      */
@@ -107,6 +126,13 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
      */
     function getBalance(address account, uint256 id) public view returns(uint256){
         return super.balanceOf(account,id);
+    }
+
+    /*
+     * @dev Returns the total minted NFTs/Services by the contract.
+     */
+    function getTotalMintedServices() public view returns(uint256){
+        return totalRegisteredNFTs;
     }
     
 
