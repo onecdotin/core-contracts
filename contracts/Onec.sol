@@ -31,7 +31,7 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
-    function mintSid(uint _supply, address _holder, bytes memory _data) public {
+    function mintNFT(uint _supply, address _holder, bytes memory _data) public {
 
         _mint(_holder, NFTCounter, _supply, _data);
         NFTCounter++;        
@@ -46,7 +46,7 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
-    function mintRefSid(uint256 _supply, address _holder, bytes memory _data,uint256 _parentSid) public {
+    function mintRefNFT(uint256 _supply, address _holder, bytes memory _data,uint256 _parentSid) public {
         //require(metadataHash[_id].length == 0);
         _mint(_holder, NFTCounter, _supply, _data);
         references[_parentSid].push(NFTCounter);
