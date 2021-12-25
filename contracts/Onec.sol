@@ -6,9 +6,11 @@ import "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-
+import "./strings.sol";
 
 contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155Upgradeable {
+
+    using Strings for string;
 
     uint private NFTCounter;
     // token-id to metadata hash
@@ -130,6 +132,17 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
       */
     function getBaseURI(uint256 _id) view public returns(string memory) {
         return super.uri(_id);
+    }
+
+     /*
+      * @dev returns the tokenURI.
+      * Depends on the token-id and returns same thing.
+      */
+    function uri(uint256 _id) public view override returns (string memory) {
+        require(_id<=getTotalMintedServices(), "#uri: NONEXISTENT_TOKEN");
+        string memory baseURI = getBaseURI(_id);
+        string memory hash = getTokenMetadataHash(_id);
+        return baseURI.concat(string(hash));
     }
 
      /*
