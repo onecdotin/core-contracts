@@ -22,7 +22,10 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
         ERC1155Upgradeable.__ERC1155_init("https://ipfs.onec.in/");
         NFTCounter = 0;
     }
-    
+
+    function contractURI() public pure returns (string memory) {
+        return "https://ipfs.io/ipfs/QmYVSqJ8iQBQWaS4H12f6rSJtVdnqVqag6jVa5ibNnXF8b";
+    }
     /*
      * @dev Mints NFT to the address of _holder.
      * @params _supply:total no. of NFTs to mint
