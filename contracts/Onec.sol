@@ -19,7 +19,7 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
     mapping(uint256 => uint256[]) private references;
 
     function initialize() public initializer {
-        ERC1155Upgradeable.__ERC1155_init("https://ipfs.onec.in/");
+        ERC1155Upgradeable.__ERC1155_init("https://ipfs.io/ipfs/");
         NFTCounter = 0;
     }
 
@@ -137,6 +137,9 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
         return super.uri(_id);
     }
 
+    function setBaseURI(string memory _baseURI) public {
+        super._setURI(_baseURI);
+    }
      /*
       * @dev returns the tokenURI.
       * Depends on the token-id and returns same thing.
