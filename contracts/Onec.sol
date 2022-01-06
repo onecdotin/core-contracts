@@ -25,7 +25,7 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
         OwnableUpgradeable.__Ownable_init();
         PausableUpgradeable.__Pausable_init();
         NFTCounter = 0;
-        contractMetadata = "https://ipfs.io/ipfs/QmYVSqJ8iQBQWaS4H12f6rSJtVdnqVqag6jVa5ibNnXF8b";
+        contractMetadata = "https://ipfs.io/ipfs/QmU3GL74GCWtXjrwEDFumVpvFV2KyDqz9ebN6dc9EETAq5";
     }
 
      /*
