@@ -18,15 +18,31 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
     // tokenIds to refTokenIds
     mapping(uint256 => uint256[]) private references;
 
+    string private contractMetadata;
+
     function initialize() public initializer {
         ERC1155Upgradeable.__ERC1155_init("https://ipfs.io/ipfs/");
         OwnableUpgradeable.__Ownable_init();
+        PausableUpgradeable.__Pausable_init();
         NFTCounter = 0;
+        contractMetadata = "https://ipfs.io/ipfs/QmYVSqJ8iQBQWaS4H12f6rSJtVdnqVqag6jVa5ibNnXF8b";
     }
 
-    function contractURI() public pure returns (string memory) {
-        return "https://ipfs.io/ipfs/QmYVSqJ8iQBQWaS4H12f6rSJtVdnqVqag6jVa5ibNnXF8b";
+     /*
+     * @dev Returns the contract URI to make it trackable at OpenSea.
+     */   
+    function contractURI() public view returns (string memory) {
+        return contractMetadata;
     }
+
+     /*
+     * @dev Sets the contract URI to make it trackable at OpenSea.
+     @params _metadata: The URL for the contract's OpenSea metadata.
+     */  
+    function setContractMetadata(string memory _metadata) public onlyOwner {
+        contractMetadata = _metadata;
+    }
+
     /*
      * @dev Mints NFT to the address of _holder.
      * @params _supply:total no. of NFTs to mint
