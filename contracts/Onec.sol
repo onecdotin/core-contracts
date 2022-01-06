@@ -18,14 +18,31 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
     // tokenIds to refTokenIds
     mapping(uint256 => uint256[]) private references;
 
+    string private contractMetadata;
+
     function initialize() public initializer {
         ERC1155Upgradeable.__ERC1155_init("https://ipfs.io/ipfs/");
+        OwnableUpgradeable.__Ownable_init();
+        PausableUpgradeable.__Pausable_init();
         NFTCounter = 0;
+        contractMetadata = "https://ipfs.io/ipfs/QmU3GL74GCWtXjrwEDFumVpvFV2KyDqz9ebN6dc9EETAq5";
     }
 
-    function contractURI() public pure returns (string memory) {
-        return "https://ipfs.io/ipfs/QmYVSqJ8iQBQWaS4H12f6rSJtVdnqVqag6jVa5ibNnXF8b";
+     /*
+     * @dev Returns the contract URI to make it trackable at OpenSea.
+     */   
+    function contractURI() public view returns (string memory) {
+        return contractMetadata;
     }
+
+     /*
+     * @dev Sets the contract URI to make it trackable at OpenSea.
+     @params _metadata: The URL for the contract's OpenSea metadata.
+     */  
+    function setContractMetadata(string memory _metadata) public onlyOwner {
+        contractMetadata = _metadata;
+    }
+
     /*
      * @dev Mints NFT to the address of _holder.
      * @params _supply:total no. of NFTs to mint
@@ -34,7 +51,7 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
-    function mintNFT(uint _supply, address _holder, bytes memory _data) public {
+    function mintNFT(uint _supply, address _holder, bytes memory _data) public onlyOwner{
         _mint(_holder, NFTCounter, _supply, _data);
         NFTCounter++;        
     }
@@ -48,8 +65,8 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
-    function mintRefNFT(uint256 _supply, address _holder, bytes memory _data,uint256 _parentTokenId) public {
-        require(_parentTokenId < NFTCounter);
+    function mintRefNFT(uint256 _supply, address _holder, bytes memory _data,uint256 _parentTokenId) public onlyOwner {
+        require(_parentTokenId < NFTCounter, "Parent token id is not valid");
         _mint(_holder, NFTCounter, _supply, _data);
         references[_parentTokenId].push(NFTCounter);
         NFTCounter++;
@@ -63,7 +80,7 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
-    function batchMintNFT(uint _supply,address _holder, bytes memory _data) public {
+    function batchMintNFT(uint _supply,address _holder, bytes memory _data) public onlyOwner {
         //create ids array
         uint[] memory _ids = new uint[](_supply);
         uint[] memory _amounts = new uint[](_supply);
@@ -85,7 +102,7 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
-    function batchMintRefNFT(uint _supply,address _holder, bytes memory _data,uint _parentTokenId) public {
+    function batchMintRefNFT(uint _supply,address _holder, bytes memory _data,uint _parentTokenId) public onlyOwner {
         //create ids array
         require(_parentTokenId < NFTCounter);
         uint[] memory _ids = new uint[](_supply);
@@ -137,9 +154,10 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
         return super.uri(_id);
     }
 
-    function setBaseURI(string memory _baseURI) public {
+    function setBaseURI(string memory _baseURI) public onlyOwner{
         super._setURI(_baseURI);
     }
+
      /*
       * @dev returns the tokenURI.
       * Depends on the token-id and returns same thing.
@@ -184,7 +202,7 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
     /*
      * @dev Burns the token with the given tokenid.
      */
-    function burnNFT(address account,uint256 id,uint256 amount) public{
+    function burnNFT(address account,uint256 id,uint256 amount) public onlyOwner{
         super._burn(account,id,amount);
         metadataHash[id]=bytes("0x0");
     }
@@ -192,7 +210,7 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
     /*
      * @dev Sets approval to the operator to manage service/NFT held by the caller of the function.
      */
-    function setApproval(address _operator, bool _approved) public {
+    function setApproval(address _operator, bool _approved) public onlyOwner{
         super.setApprovalForAll(_operator,_approved);
     }
 
@@ -210,7 +228,7 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
         return super.balanceOf(account,id);
     }
 
-    /*
+    /*    
      * @dev Returns the total minted NFTs by the contract.
      */
     function getTotalMintedNFT() public view returns(uint256){
