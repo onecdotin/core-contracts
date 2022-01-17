@@ -74,9 +74,9 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
 
     /*
      * @dev Batch-Mints NFTs to the address of _holder.
-     * @params _supply:total no. of service/NFT to mint
-     * _holder:public address of the account to mint service/NFT on that.
-     * _data metadata hash of the service/NFT.
+     * @params _supply:total no. of NFT to mint
+     * _holder:public address of the account to mint NFT on that.
+     * _data metadata hash of the NFT.
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
@@ -95,10 +95,10 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
 
     /*
      * @dev Batch Mints Reference NFTs to the address of _holder.
-     * @params _supply:total no. of service/NFT to mint
-     * _holder:public address of the account to mint service/NFT on that.
-     * _data: metadata hash of the service/NFT.
-     * _parentTokenId: the token id of the service/NFT of which you are minting the references.
+     * @params _supply:total no. of NFT to mint
+     * _holder:public address of the account to mint NFT on that.
+     * _data: metadata hash of the NFT.
+     * _parentTokenId: the token id of the NFT of which you are minting the references.
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
@@ -127,7 +127,7 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
     }
     
     /*
-     *@dev Called before every token transfer, maps the metadataHash of a service/NFT with the token id  
+     *@dev Called before every token transfer, maps the metadataHash of a NFT with the token id  
      */
     function _beforeTokenTransfer(address _operator, address _from, address _to, uint256[] memory ids, uint256[] memory amount, bytes memory data) override internal {
         //save the metadata hash
@@ -170,8 +170,8 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
     }
 
      /*
-      * @dev Tranfers the service/NFT to new address.
-      * Can be called by the service/NFT holder.
+      * @dev Tranfers the NFT to new address.
+      * Can be called by the NFT holder.
       */
     function transfer(address _from,address _to, uint256 _id, uint256 _amount, bytes memory _data) public {
         super.safeTransferFrom(_from, _to, _id, _amount, _data);
@@ -179,7 +179,7 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
 
      /*
       * @dev Batch tranfers the services/NFTs to new address.
-      * Can be called by the service/NFT holder.
+      * Can be called by the NFT holder.
       */
     function batchTransfer(address _from,address _to,uint256[] memory _ids,uint256[] memory _amounts,bytes memory _data) public {
         super.safeBatchTransferFrom(_from,_to,_ids,_amounts,_data);
@@ -208,21 +208,21 @@ contract Onec is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155U
     }
     
     /*
-     * @dev Sets approval to the operator to manage service/NFT held by the caller of the function.
+     * @dev Sets approval to the operator to manage NFT held by the caller of the function.
      */
     function setApproval(address _operator, bool _approved) public onlyOwner{
         super.setApprovalForAll(_operator,_approved);
     }
 
     /*
-     * @dev Give status of the approval rights, if the operator can manage service/NFT held by the account.
+     * @dev Give status of the approval rights, if the operator can manage NFT held by the account.
      */
     function isApproved(address account, address operator) public view returns(bool){
         return super.isApprovedForAll(account,operator);
     }
     
     /*
-     * @dev Gives the balance of a particular service/NFT of given id held by an account.
+     * @dev Gives the balance of a particular NFT of given id held by an account.
      */
     function getBalance(address account, uint256 id) public view returns(uint256){
         return super.balanceOf(account,id);
