@@ -21,13 +21,13 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
 
     string private baseURI;
 
-    function initialize(string memory _name,string memory _symbol) public initializer {
+    function initialize(string memory _name,string memory _symbol,string memory _baseURI,string memory _contractMetadata) public initializer {
         ERC721Upgradeable.__ERC721_init(_name,_symbol);
         OwnableUpgradeable.__Ownable_init();
         PausableUpgradeable.__Pausable_init();
         NFTCounter = 0;
-        contractMetadata = "https://ipfs.io/ipfs/QmU3GL74GCWtXjrwEDFumVpvFV2KyDqz9ebN6dc9EETAq5";
-        baseURI="https://ipfs.io/ipfs/";
+        contractMetadata = _contractMetadata;
+        baseURI=_baseURI;
     }
 
      /*
