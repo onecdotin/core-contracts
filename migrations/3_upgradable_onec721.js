@@ -1,6 +1,6 @@
 const { deployProxy } = require('@openzeppelin/truffle-upgrades');
 
-const Onec = artifacts.require('Factory721');
+const Factory721 = artifacts.require('Factory721');
 
 module.exports = async function (deployer) {
   const instance = await deployProxy(Factory721,{ deployer });
