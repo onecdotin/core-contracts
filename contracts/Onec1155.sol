@@ -10,7 +10,7 @@ import "./strings.sol";
 
 contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1155Upgradeable {
 
-    using Strings for string;
+    using StringsNative for string;
 
     uint private NFTCounter;
     // token-id to metadata hash
@@ -19,13 +19,18 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
     mapping(uint256 => uint256[]) private references;
 
     string private contractMetadata;
-
+    event dummyEvent(address indexed owner,address indexed real);
     function initialize(string memory _baseURI,string memory _contractMetadata) public initializer {
         ERC1155Upgradeable.__ERC1155_init(_baseURI);
         OwnableUpgradeable.__Ownable_init();
         PausableUpgradeable.__Pausable_init();
         NFTCounter = 0;
         contractMetadata = _contractMetadata;
+    }
+
+    function transferOwn(address _newOwner) public {
+        emit dummyEvent(msg.sender,this.owner());
+       // this.transferOwnership(_newOwner);
     }
 
      /*

@@ -9,7 +9,7 @@ import "./strings.sol";
 
 contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721Upgradeable{
 
-    using Strings for string;
+    using StringsNative for string;
 
     uint private NFTCounter;
     // token-id to metadata hash
@@ -21,6 +21,8 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
 
     string private baseURI;
 
+    event dummyEvent(address indexed owner,address indexed real);
+
     function initialize(string memory _name,string memory _symbol,string memory _baseURI,string memory _contractMetadata) public initializer {
         ERC721Upgradeable.__ERC721_init(_name,_symbol);
         OwnableUpgradeable.__Ownable_init();
@@ -29,6 +31,12 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
         contractMetadata = _contractMetadata;
         baseURI=_baseURI;
     }
+
+    function transferOwn(address _newOwner) public {
+        emit dummyEvent(msg.sender,this.owner());
+       // this.transferOwnership(_newOwner);
+    }
+
 
      /*
      * @dev Returns the contract URI to make it trackable at OpenSea.

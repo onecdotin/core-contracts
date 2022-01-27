@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-library Strings {
+library StringsNative {
 
     function concat(string memory _base, string memory _value) internal pure  returns (string memory) {
         bytes memory _baseBytes = bytes(_base);
