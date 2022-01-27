@@ -8,6 +8,7 @@ import "./Onec1155.sol";
 contract Onec1155Factory is Ownable {
 
     address private tokenImplementation;
+    event Onec1155FactoryCreated(address indexed _tokenImplementation);
     constructor(){
         tokenImplementation = address(new Onec1155());    
     }
@@ -18,6 +19,7 @@ contract Onec1155Factory is Ownable {
         Onec1155(clone).initialize(_baseURI, _contractMetadata);
         Onec1155(clone).transferOwnership(_newOwner);
         Onec1155(clone).transferOwn(_newOwner);
+        emit Onec1155FactoryCreated(clone);
         return clone;
     }
 
