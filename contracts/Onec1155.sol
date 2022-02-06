@@ -19,18 +19,13 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
     mapping(uint256 => uint256[]) private references;
 
     string private contractMetadata;
-    event dummyEvent(address indexed owner,address indexed real);
+
     function initialize(string memory _baseURI,string memory _contractMetadata) public initializer {
         ERC1155Upgradeable.__ERC1155_init(_baseURI);
         OwnableUpgradeable.__Ownable_init();
         PausableUpgradeable.__Pausable_init();
         NFTCounter = 0;
         contractMetadata = _contractMetadata;
-    }
-
-    function transferOwn(address _newOwner) public {
-        emit dummyEvent(msg.sender,this.owner());
-       // this.transferOwnership(_newOwner);
     }
 
      /*
@@ -150,6 +145,21 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
     function getTokenMetadataHash(uint256 _id) view public returns(string memory) {
         return string(metadataHash[_id]);
     }
+
+    /*
+     * @dev Updates the metadata of the given tokenid.
+     * @params
+     * _from: the address of the owner of the NFT.
+     * _tokenId: token id of the NFT(already minted).
+     * _data: new metadata hash of the NFT.
+     */
+    function updataMetadata(address _from,uint256 _tokenId,bytes memory _data) public onlyOwner{
+        require(super._exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
+        require(_from == super.ownerOf(_tokenId), "ERC721Metadata: Only owner can update metadata");
+        metadataHash[_tokenId] = _data;
+    }
+
+
 
      /*
       * @dev returns the baseURI.

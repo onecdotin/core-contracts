@@ -18,7 +18,6 @@ contract Onec721Factory is Ownable {
         address clone = Clones.clone(tokenImplementation);
         Onec721(clone).initialize(_name,_symbol,_baseURI, _contractMetadata);
         Onec721(clone).transferOwnership(_newOwner);
-        Onec721(clone).transferOwn(_newOwner);
         emit Onec721Created(clone);
         return clone;
     }

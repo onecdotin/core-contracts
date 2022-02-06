@@ -21,8 +21,6 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
 
     string private baseURI;
 
-    event dummyEvent(address indexed owner,address indexed real);
-
     function initialize(string memory _name,string memory _symbol,string memory _baseURI,string memory _contractMetadata) public initializer {
         ERC721Upgradeable.__ERC721_init(_name,_symbol);
         OwnableUpgradeable.__Ownable_init();
@@ -31,12 +29,6 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
         contractMetadata = _contractMetadata;
         baseURI=_baseURI;
     }
-
-    function transferOwn(address _newOwner) public {
-        emit dummyEvent(msg.sender,this.owner());
-       // this.transferOwnership(_newOwner);
-    }
-
 
      /*
      * @dev Returns the contract URI to make it trackable at OpenSea.
@@ -53,14 +45,9 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
         contractMetadata = _metadata;
     }
 
-    function getTokenMetadataHash(uint256 _tokenId) public view returns (string memory) {
-        return string(metadataHash[_tokenId]);
-    }
-
-    function setTokenMetadataHash(uint256 _tokenId, bytes memory _metadataHash) public onlyOwner {
-        metadataHash[_tokenId] = _metadataHash;
-    }
-
+     /*
+     * @dev Returns the contract's base URI.
+     */
     function getBaseURI() public view returns (string memory){
         return baseURI;
     }
@@ -94,7 +81,7 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
      */
     function mintNFT(address _holder, bytes memory _data) public onlyOwner{
         _safeMint(_holder, NFTCounter, _data);
-        setTokenMetadataHash(NFTCounter, _data);
+        metadataHash[NFTCounter] = _data;
         NFTCounter++;        
     }
 
@@ -111,8 +98,32 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
         require(_parentTokenId < NFTCounter, "Parent token id is not valid");
         _safeMint(_holder, NFTCounter, _data);
         references[_parentTokenId].push(NFTCounter);
-        setTokenMetadataHash(NFTCounter, _data);
+        metadataHash[NFTCounter] = _data;
         NFTCounter++;
+    }
+
+    /*
+     * @dev Returns the metadata hash of the NFT.
+     * @params
+     * _tokenId: the token id of the NFT.
+     * Requirements:
+     * Can only be called by the deployer of the smart contract.
+     */
+    function getTokenMetadataHash(uint256 _tokenId) public view returns (string memory) {
+        return string(metadataHash[_tokenId]);
+    }
+
+    /*
+     * @dev Updates the metadata of the given tokenid.
+     * @params
+     * _from: the address of the owner of the NFT.
+     * _tokenId: token id of the NFT(already minted).
+     * _data: new metadata hash of the NFT.
+     */
+    function updataMetadata(address _from,uint256 _tokenId,bytes memory _data) public onlyOwner{
+        require(super._exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
+        require(_from == super.ownerOf(_tokenId), "ERC721Metadata: Only owner can update metadata");
+        metadataHash[_tokenId] = _data;
     }
 
     /*
@@ -150,9 +161,7 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
      */
     function burnNFT(uint256 _id) public onlyOwner{
         super._burn(_id);
-        setTokenMetadataHash(NFTCounter, bytes("0x0"));
+        metadataHash[NFTCounter] = bytes("0x0");       
     }
-
-
 
 }

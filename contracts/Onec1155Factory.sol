@@ -18,7 +18,6 @@ contract Onec1155Factory is Ownable {
         address clone = Clones.clone(tokenImplementation);
         Onec1155(clone).initialize(_baseURI, _contractMetadata);
         Onec1155(clone).transferOwnership(_newOwner);
-        Onec1155(clone).transferOwn(_newOwner);
         emit Onec1155Created(clone);
         return clone;
     }
