@@ -120,7 +120,7 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
      * _tokenId: token id of the NFT(already minted).
      * _data: new metadata hash of the NFT.
      */
-    function updataMetadata(address _from,uint256 _tokenId,bytes memory _data) public onlyOwner{
+    function updateMetadata(address _from,uint256 _tokenId,bytes memory _data) public onlyOwner{
         require(super._exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
         require(_from == super.ownerOf(_tokenId), "ERC721Metadata: Only owner can update metadata");
         metadataHash[_tokenId] = _data;
@@ -164,4 +164,11 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
         metadataHash[NFTCounter] = bytes("0x0");       
     }
 
+    /*    
+     * @dev Returns the total minted NFTs by the contract.
+     */
+    function getTotalMintedNFT() public view returns(uint256){
+        return NFTCounter;
+    }
+    
 }
