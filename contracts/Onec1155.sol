@@ -146,21 +146,6 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
         return string(metadataHash[_id]);
     }
 
-    /*
-     * @dev Updates the metadata of the given tokenid.
-     * @params
-     * _from: the address of the owner of the NFT.
-     * _tokenId: token id of the NFT(already minted).
-     * _data: new metadata hash of the NFT.
-     */
-    function updataMetadata(address _from,uint256 _tokenId,bytes memory _data) public onlyOwner{
-        require(super._exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
-        require(_from == super.ownerOf(_tokenId), "ERC721Metadata: Only owner can update metadata");
-        metadataHash[_tokenId] = _data;
-    }
-
-
-
      /*
       * @dev returns the baseURI.
       * Doesn't depends on the token-id and returns same thing.
