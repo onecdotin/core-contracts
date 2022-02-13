@@ -79,7 +79,7 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
-    function mintNFT(address _holder, bytes memory _data) public onlyOwner{
+    function mintNFT(address _holder, bytes memory _data) public {
         _safeMint(_holder, NFTCounter, _data);
         metadataHash[NFTCounter] = _data;
         NFTCounter++;        
@@ -94,7 +94,7 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
-    function mintRefNFT(address _holder, bytes memory _data,uint256 _parentTokenId) public onlyOwner {
+    function mintRefNFT(address _holder, bytes memory _data,uint256 _parentTokenId) public  {
         require(_parentTokenId < NFTCounter, "Parent token id is not valid");
         _safeMint(_holder, NFTCounter, _data);
         references[_parentTokenId].push(NFTCounter);
@@ -120,9 +120,9 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
      * _tokenId: token id of the NFT(already minted).
      * _data: new metadata hash of the NFT.
      */
-    function updataMetadata(address _from,uint256 _tokenId,bytes memory _data) public onlyOwner{
+    function updataMetadata(uint256 _tokenId,bytes memory _data) public{
         require(super._exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
-        require(_from == super.ownerOf(_tokenId), "ERC721Metadata: Only owner can update metadata");
+        require(msg.sender== super.ownerOf(_tokenId), "ERC721Metadata: Only owner can update metadata");
         metadataHash[_tokenId] = _data;
     }
 
@@ -138,8 +138,8 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
       * @dev Tranfers the NFT to new address.
       * Can be called by the NFT holder.
     */
-    function transfer(address _from,address _to, uint256 _tokenId,bytes memory _data) public onlyOwner {
-        super.safeTransferFrom(_from,_to, _tokenId,_data);
+    function transfer(address _from,address _to, uint256 _tokenId) public  {
+        super.safeTransferFrom(_from,_to, _tokenId);
     }
 
     /*
@@ -162,6 +162,13 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
     function burnNFT(uint256 _id) public onlyOwner{
         super._burn(_id);
         metadataHash[NFTCounter] = bytes("0x0");       
+    }
+
+    /*    
+     * @dev Returns the total minted NFTs by the contract.
+     */
+    function getTotalMintedNFT() public view returns(uint256){
+        return NFTCounter;
     }
 
 }

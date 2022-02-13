@@ -51,7 +51,7 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
-    function mintNFT(uint _supply, address _holder, bytes memory _data) public onlyOwner{
+    function mintNFT(uint _supply, address _holder, bytes memory _data) public {
         _mint(_holder, NFTCounter, _supply, _data);
         NFTCounter++;        
     }
@@ -65,7 +65,7 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
-    function mintRefNFT(uint256 _supply, address _holder, bytes memory _data,uint256 _parentTokenId) public onlyOwner {
+    function mintRefNFT(uint256 _supply, address _holder, bytes memory _data,uint256 _parentTokenId) public  {
         require(_parentTokenId < NFTCounter, "Parent token id is not valid");
         _mint(_holder, NFTCounter, _supply, _data);
         references[_parentTokenId].push(NFTCounter);
@@ -80,7 +80,7 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
      * Requirements:
      * Can only be called by the deployer of the smart contract.
      */
-    function batchMintNFT(uint _supply,address _holder, bytes memory _data) public onlyOwner {
+    function batchMintNFT(uint _supply,address _holder, bytes memory _data) public {
         //create ids array
         uint[] memory _ids = new uint[](_supply);
         uint[] memory _amounts = new uint[](_supply);
@@ -91,32 +91,6 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
         //create amount array
         _mintBatch(_holder,_ids,_amounts,_data);
         NFTCounter+=_ids.length;
-    }
-
-    /*
-     * @dev Batch Mints Reference NFTs to the address of _holder.
-     * @params _supply:total no. of NFT to mint
-     * _holder:public address of the account to mint NFT on that.
-     * _data: metadata hash of the NFT.
-     * _parentTokenId: the token id of the NFT of which you are minting the references.
-     * Requirements:
-     * Can only be called by the deployer of the smart contract.
-     */
-    function batchMintRefNFT(uint _supply,address _holder, bytes memory _data,uint _parentTokenId) public onlyOwner {
-        //create ids array
-        require(_parentTokenId < NFTCounter);
-        uint[] memory _ids = new uint[](_supply);
-        uint[] memory _amounts = new uint[](_supply);
-        for(uint i=0;i<_supply;i++){
-            _ids[i]=NFTCounter+i;
-            _amounts[i]=1;
-        }
-        //create amount array
-        _mintBatch(_holder,_ids,_amounts,_data);
-        NFTCounter+=_ids.length;
-        for(uint i=0;i<_ids.length;i++){
-            references[_parentTokenId].push(_ids[i]);
-        }
     }
     
     /*
@@ -146,20 +120,6 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
         return string(metadataHash[_id]);
     }
 
-    /*
-     * @dev Updates the metadata of the given tokenid.
-     * @params
-     * _from: the address of the owner of the NFT.
-     * _tokenId: token id of the NFT(already minted).
-     * _data: new metadata hash of the NFT.
-     */
-    function updataMetadata(address _from,uint256 _tokenId,bytes memory _data) public onlyOwner{
-        require(super._exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
-        require(_from == super.ownerOf(_tokenId), "ERC721Metadata: Only owner can update metadata");
-        metadataHash[_tokenId] = _data;
-    }
-
-
 
      /*
       * @dev returns the baseURI.
@@ -188,16 +148,8 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
       * @dev Tranfers the NFT to new address.
       * Can be called by the NFT holder.
       */
-    function transfer(address _from,address _to, uint256 _id, uint256 _amount, bytes memory _data) public {
-        super.safeTransferFrom(_from, _to, _id, _amount, _data);
-    }
-
-     /*
-      * @dev Batch tranfers the services/NFTs to new address.
-      * Can be called by the NFT holder.
-      */
-    function batchTransfer(address _from,address _to,uint256[] memory _ids,uint256[] memory _amounts,bytes memory _data) public {
-        super.safeBatchTransferFrom(_from,_to,_ids,_amounts,_data);
+    function transfer(address _from,address _to, uint256 _id, uint256 _amount) public {
+        super.safeTransferFrom(_from, _to, _id, _amount,"");
     }
 
     /*
@@ -217,7 +169,7 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
     /*
      * @dev Burns the token with the given tokenid.
      */
-    function burnNFT(address account,uint256 id,uint256 amount) public onlyOwner{
+    function burnNFT(address account,uint256 id,uint256 amount) public{
         super._burn(account,id,amount);
         metadataHash[id]=bytes("0x0");
     }
