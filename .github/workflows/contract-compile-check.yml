@@ -1,4 +1,5 @@
 name: Check Syntax Error in Smart Contracts
+on:
   push:
     branches: [ main ]
   pull_request:
