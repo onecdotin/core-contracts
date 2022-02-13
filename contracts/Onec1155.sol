@@ -120,10 +120,6 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
         return string(metadataHash[_id]);
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 98d2a3280b0bc41f5109a6231776412c4899ec3b
      /*
       * @dev returns the baseURI.
       * Doesn't depends on the token-id and returns same thing.

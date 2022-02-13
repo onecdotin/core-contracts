@@ -1,0 +1,22 @@
+name: Check Syntax Error in Smart Contracts
+on: [push]
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+          submodules: recursive
+
+    - name: Set up Node
+      uses: actions/setup-node@v2
+
+    - name: Install Oz
+      run: npm install -g @openzeppelin/contracts-upgradeable@4.3.0 @openzeppelin/contracts@4.4.1
+
+    - name: Install Truffle
+      run: npm install -g truffle 
+    
+    - name: Compile Smart Contracts
+      run: truffle compile --all
