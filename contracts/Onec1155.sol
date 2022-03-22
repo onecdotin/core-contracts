@@ -12,6 +12,10 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
 
     using StringsNative for string;
 
+    string public name;
+    
+    string public symbol;
+    
     uint private NFTCounter;
     // token-id to metadata hash
     mapping(uint256 => bytes) private metadataHash;
@@ -20,12 +24,14 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
 
     string private contractMetadata;
 
-    function initialize(string memory _baseURI,string memory _contractMetadata) public initializer {
+    function initialize(string memory _name,string memory _symbol,string memory _baseURI,string memory _contractMetadata) public initializer {
         ERC1155Upgradeable.__ERC1155_init(_baseURI);
         OwnableUpgradeable.__Ownable_init();
         PausableUpgradeable.__Pausable_init();
         NFTCounter = 0;
         contractMetadata = _contractMetadata;
+        name=_name;
+        symbol=_symbol;
     }
 
      /*

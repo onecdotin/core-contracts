@@ -12,10 +12,10 @@ contract Onec1155Factory is Ownable {
         tokenImplementation = address(new Onec1155());    
     }
     
-    function createOnec1155(string memory _baseURI,string memory _contractMetadata,address _newOwner) external onlyOwner returns (address) {
+    function createOnec1155(string memory _name,string memory _symbol,string memory _baseURI,string memory _contractMetadata,address _newOwner) external onlyOwner returns (address) {
         require(_newOwner != address(0));
         address clone = Clones.clone(tokenImplementation);
-        Onec1155(clone).initialize(_baseURI, _contractMetadata);
+        Onec1155(clone).initialize(_name,_symbol,_baseURI, _contractMetadata);
         Onec1155(clone).transferOwnership(_newOwner);
         return clone;
     }

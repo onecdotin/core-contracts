@@ -17,12 +17,14 @@
  * phrase from a file you've .gitignored so it doesn't accidentally become public.
  *
  */
-
+var HDWalletProvider = null
+var fs=null
+var mnemonic=null
 
 try {
-  const HDWalletProvider = require('@truffle/hdwallet-provider');
-  const fs = require('fs');
-  const mnemonic = fs.readFileSync(".secret").toString().trim();  
+  HDWalletProvider = require('@truffle/hdwallet-provider');
+  fs = require('fs');
+  mnemonic = fs.readFileSync(".secret").toString().trim();  
 } catch (error) {
   console.log(error);
 }
@@ -56,9 +58,10 @@ module.exports = {
     ropsten: {
       provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/5c64d7bb1c0b4e6db6f27f2354a2b50f`),
       network_id: 3,       // Ropsten's id
+      gasPrice: 70000000000,
       gas: 6500000,        // Ropsten has a lower block limit than mainnet
       confirmations: 2,    // # of confs to wait between deployments. (default: 0)
-      timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
+      timeoutBlocks: 300,  // # of blocks before a deployment times out  (minimum/default: 50)
       skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
     },
     polygon_mumbai: {
