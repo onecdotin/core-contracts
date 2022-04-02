@@ -76,8 +76,6 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
      * @params
      * _holder:public address of the account to mint NFT on that.
      * _data: metadata hash of the NFT.
-     * Requirements:
-     * Can only be called by the deployer of the smart contract.
      */
     function mintNFT(address _holder, bytes memory _data) public {
         _safeMint(_holder, NFTCounter, _data);
@@ -91,8 +89,6 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
      * _holder: public address of the account to mint NFT on that.
      * _data: metadata hash of the NFT.
      * _parentTokenId: the token id of the NFT of which you are minting the references.
-     * Requirements:
-     * Can only be called by the deployer of the smart contract.
      */
     function mintRefNFT(address _holder, bytes memory _data,uint256 _parentTokenId) public  {
         require(_parentTokenId < NFTCounter, "Parent token id is not valid");
@@ -106,8 +102,6 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
      * @dev Returns the metadata hash of the NFT.
      * @params
      * _tokenId: the token id of the NFT.
-     * Requirements:
-     * Can only be called by the deployer of the smart contract.
      */
     function getTokenMetadataHash(uint256 _tokenId) public view returns (string memory) {
         return string(metadataHash[_tokenId]);
@@ -132,7 +126,6 @@ contract Onec721 is Initializable,PausableUpgradeable, OwnableUpgradeable,ERC721
     function getReferences(uint _id) public view returns(uint256[] memory) {
         return references[_id];    
     }
-
 
      /*
       * @dev Tranfers the NFT to new address.

@@ -54,8 +54,6 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
      * @params _supply:total no. of NFTs to mint
      * _holder:public address of the account to mint NFT on that.
      * _data: metadata hash of the NFT.
-     * Requirements:
-     * Can only be called by the deployer of the smart contract.
      */
     function mintNFT(uint _supply, address _holder, bytes memory _data) public {
         _mint(_holder, NFTCounter, _supply, _data);
@@ -68,8 +66,6 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
      * _holder: public address of the account to mint NFT on that.
      * _data: metadata hash of the NFT.
      * _parentTokenId: the token id of the NFT of which you are minting the references.
-     * Requirements:
-     * Can only be called by the deployer of the smart contract.
      */
     function mintRefNFT(uint256 _supply, address _holder, bytes memory _data,uint256 _parentTokenId) public  {
         require(_parentTokenId < NFTCounter, "Parent token id is not valid");
@@ -83,19 +79,15 @@ contract Onec1155 is Initializable,PausableUpgradeable, OwnableUpgradeable, ERC1
      * @params _supply:total no. of NFT to mint
      * _holder:public address of the account to mint NFT on that.
      * _data metadata hash of the NFT.
-     * Requirements:
-     * Can only be called by the deployer of the smart contract.
      */
-    function batchMintNFT(uint _supply,address _holder, bytes memory _data) public {
-        //create ids array
-        uint[] memory _ids = new uint[](_supply);
-        uint[] memory _amounts = new uint[](_supply);
-        for(uint i=0;i<_supply;i++){
+    function batchMintNFT(address _holder,uint[] memory _supply,bytes memory _data) public {
+        // create ids array
+        uint batchSize = _supply.length;
+        uint[] memory _ids = new uint[](batchSize);
+        for(uint i=0;i < batchSize;i++){
             _ids[i]=NFTCounter+i;
-            _amounts[i]=1;
         }
-        //create amount array
-        _mintBatch(_holder,_ids,_amounts,_data);
+        _mintBatch(_holder,_ids,_supply,_data);
         NFTCounter+=_ids.length;
     }
     
